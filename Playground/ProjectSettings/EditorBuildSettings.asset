@@ -8,6 +8,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Playgroud/Week 01/Week01_Scene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/_Playgroud/week05/week05.unity
+    guid: d6cb3432fbee5e24aab56af255944b44
+  - enabled: 1
+    path: Assets/_Playgroud/week05/wk05.unity
+    guid: b3db73165a8dc8949afb818ccd518f9a
+  - enabled: 1
+    path: Assets/_Playgroud/week05/wk05_2.unity
+    guid: 44c80bd40ffbc604bae54b9d67542266
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -54,14 +54,8 @@ public class PlayerMove : NetworkBehaviour
     void ColorServerRPC()
     {
         //ColorClientRPC(RandomColor());
-        if(IsServer) characterColor.Value = RandomColor();
+        if (IsServer) characterColor.Value = RandomColor();
     }
-    void OnMovement(InputValue value)
-    {
-        movement = value.Get<Vector2>();
-        if (IsOwner) ColorServerRPC();
-    }
-
     private void Update()
     {   
         if(IsOwner == false) return;    

@@ -7,15 +7,15 @@ namespace Week05
 {
     public class Week05 : MonoBehaviour
     {
-        async Task Start()
+        void Start()
         {
-            //SceneManager.LoadScene(1, LoadSceneMode.Additive);
-            //SceneManager.LoadScene(2, LoadSceneMode.Additive);
-            //StartCoroutine(LoadingScenes(1));
-            //StartCoroutine(LoadingScenes(2));
+            SceneManager.LoadScene(1, LoadSceneMode.Additive);
+            SceneManager.LoadScene(2, LoadSceneMode.Additive);
+            StartCoroutine(LoadingScenes(1));
+            StartCoroutine(LoadingScenes(2));
 
-            await SceneManager.UnloadSceneAsync(1, LoadScewneMode.Additive);
-            await SceneManager.UnloadSceneAsync(2, LoadScewneMode.Additive);
+            //await SceneManager.UnloadSceneAsync(1, LoadSceneMode.Additive);
+            //await SceneManager.UnloadSceneAsync(2, LoadSceneMode.Additive);
             LightProbes.Tetrahedralize();
 
         }

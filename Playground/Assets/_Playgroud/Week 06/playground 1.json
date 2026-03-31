@@ -1,0 +1,17 @@
+{
+    "highscore":
+    [
+        {
+            "playerName": "Jenna",
+            "playerScore": 125
+        },
+        {
+            "playerName": "Yann",
+            "playerScore": 500
+        },
+        {
+            "playerName": "Rachel",
+            "playerScore": 1000
+        }
+    ]
+}

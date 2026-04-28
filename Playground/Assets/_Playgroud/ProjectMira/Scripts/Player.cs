@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-        cameraTransform = Camera.main.transform;
+        cameraTransform = gameObject.transform; //Camera.main.transform;
 
         playerHeight = GetComponent<CapsuleCollider>().height * transform.localScale.y;
         raycastDistance = (playerHeight / 2) + 0.2f;
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     }
 
 
-    void Update()
+    private void Update()
     {
         moveHorizontal = Input.GetAxis("Horizontal");
         moveForward = Input.GetAxis("Vertical");
@@ -57,57 +57,56 @@ public class Player : MonoBehaviour
         {
             groundCheckTimer -= Time.deltaTime;
         }
+    }
+    private void FixedUpdate()
+    {
+        MovePlayer();
+        ApplyJumpPhysics();
+    }
 
-        void FixedUpdate();
+    private void MovePlayer()
+    {
+        Vector3 movement = (transform.right * moveHorizontal + transform.forward * moveForward).normalized;
+        Vector3 targetVelocity = movement * MoveSpeed;
+
+        Vector3 velocity = rb.angularVelocity;
+        velocity.x = targetVelocity.x;
+        velocity.z = targetVelocity.z;
+        rb.angularVelocity = velocity;
+
+        if (isGrounded && moveHorizontal == 0 && moveForward == 0)
         {
-            MovePlayer();
-            ApplyJumpPhysics();
-        }
-
-        void MovePlayer()
-        {
-            Vector3 movement = (transform.right * moveHorizontal + transform.forward * moveForward).normalized;
-            Vector3 targetVelocity = movement * MoveSpeed;
-
-            Vector3 velocity = rb.angularVelocity;
-            velocity.x = targetVelocity.x;
-            velocity.z = targetVelocity.z;
-            rb.angularVelocity = velocity;
-
-            if (isGrounded && moveHorizontal == 0 && moveForward == 0)
-            {
-                rb.angularVelocity = new Vector3(0, rb.angularVelocity.y, 0);
-            }
-
-            void RotateCamera()
-            {
-                float horizontalRotation = Input.GetAxis("Mouse X") * mouseSensitivity;
-                transform.Rotate(0, horizontalRotation, 0);
-
-                verticalRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity;
-                verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
-
-                cameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
-            }
-
-            void Jump()
-            {
-                isGrounded = false;
-                groundCheckTimer = groundCheckDelay;
-                rb.angularVelocity = new Vector3(rb.angularVelocity.x, jumpForce, rb.angularVelocity.z);
-            }
-
-            void ApplyJumpPhysics()
-            {
-                if (rb.angularVelocity.y < 0)
-                {
-                    rb.angularVelocity += Vector3.up * Physics.gravity.y * fallMultiplier * Time.fixedDeltaTime;
-                }
-                else if (rb.angularVelocity.y > 0 && !Input.GetButton("Jump"))
-                {
-                    rb.angularVelocity += Vector3.up * Physics.gravity.y * ascendMultiplier * Time.fixedDeltaTime;
-                }
-            }
+            rb.angularVelocity = new Vector3(0, rb.angularVelocity.y, 0);
         }
     }
+
+    private void RotateCamera()
+    {
+        float horizontalRotation = Input.GetAxis("Mouse X") * mouseSensitivity;
+        transform.Rotate(0, horizontalRotation, 0);
+
+        verticalRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
+
+        cameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+    }
+
+     private void Jump()
+     {
+        isGrounded = false;
+        groundCheckTimer = groundCheckDelay;
+        rb.angularVelocity = new Vector3(rb.angularVelocity.x, jumpForce, rb.angularVelocity.z);
+     }
+
+      private void ApplyJumpPhysics()
+      {
+        if (rb.angularVelocity.y < 0)
+        {
+            rb.angularVelocity += Vector3.up * Physics.gravity.y * fallMultiplier * Time.fixedDeltaTime;
+        }
+        else if (rb.angularVelocity.y > 0 && !Input.GetButton("Jump"))
+        {
+                    rb.angularVelocity += Vector3.up * Physics.gravity.y * ascendMultiplier * Time.fixedDeltaTime;
+        }
+      }
 }

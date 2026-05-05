@@ -1,7 +1,65 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+namespace ThePlayground.Main.Player
 {
+    public class Player : MonoBehaviour
+    {
+        Rigidbody rb;
+        bool isGrounded;
+        float groundDistance = 0.4f;
+
+        [SerializeField]
+        float jumpForce;
+
+        void Start()
+        {
+            rb = GetComponent<Rigidbody>();
+        }
+
+        void Update()
+        {
+            print(Physics.CheckSphere(gameObject.transform.position, groundDistance));
+
+            if (Keyboard.current.wKey.isPressed && isGrounded)
+            {
+                print("move");
+                rb.AddForce(0, 0, 10);
+            }
+            isGrounded = Physics.CheckSphere(gameObject.transform.position, groundDistance, groundMask);
+
+            if (keyboard.current.wKey.isPressed && isGrounded)
+            {
+                print("move");
+                rb.AddForce(0, 10);
+            }
+
+            if (keyboard.current.sKey.isPressed && isGrounded)
+            {
+                print("move");
+                rb.AddForce(0, -10);
+            }
+
+            if (keyboard.current.spaceKey.isPressed && isGrounded)
+            {
+                print("jump");
+                rb.AddForce(0, jumpForce, 0);
+            }
+        }
+
+        private void OnCollisionStay(Collision collision)
+        {
+            print("colliding");
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            print("Not colliding");
+        }
+    }
+}
+
+    /*
     public float mouseSensitivity = 2f;
     private float verticalRotation = 0f;
     private Transform cameraTransform;
@@ -26,7 +84,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-        cameraTransform = gameObject.transform; //Camera.main.transform;
+        cameraTransform = gameObject.transform; 
 
         playerHeight = GetComponent<CapsuleCollider>().height * transform.localScale.y;
         raycastDistance = (playerHeight / 2) + 0.2f;
@@ -41,9 +99,9 @@ public class Player : MonoBehaviour
         moveHorizontal = Input.GetAxis("Horizontal");
         moveForward = Input.GetAxis("Vertical");
 
-        RotateCamera();
+        //RotateCamera();
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space)) //&& isGrounded)
         {
             Jump();
         }
@@ -60,8 +118,8 @@ public class Player : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        MovePlayer();
-        ApplyJumpPhysics();
+        //MovePlayer();
+        //ApplyJumpPhysics();
     }
 
     private void MovePlayer()
@@ -93,6 +151,7 @@ public class Player : MonoBehaviour
 
      private void Jump()
      {
+        print("JUMP");
         isGrounded = false;
         groundCheckTimer = groundCheckDelay;
         rb.angularVelocity = new Vector3(rb.angularVelocity.x, jumpForce, rb.angularVelocity.z);
@@ -108,5 +167,4 @@ public class Player : MonoBehaviour
         {
                     rb.angularVelocity += Vector3.up * Physics.gravity.y * ascendMultiplier * Time.fixedDeltaTime;
         }
-      }
-}
+      }*/

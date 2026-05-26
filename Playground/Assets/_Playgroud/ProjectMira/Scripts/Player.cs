@@ -5,6 +5,7 @@ namespace ThePlayground.Main.Player
 {
     public class Player : MonoBehaviour
     {
+
         Rigidbody rb;
         bool isGrounded;
         float groundDistance = 0.4f;
